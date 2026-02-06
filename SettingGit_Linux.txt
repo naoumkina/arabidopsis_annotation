@@ -1,0 +1,69 @@
+1. Create the GitHub repository FIRST
+This was one of the key insights you discovered.
+
+You must create the repo on GitHub before trying to push from your machine:
+
+Go to GitHub
+
+Click New Repository
+
+Name it (e.g., arabidopsis_annotation)
+
+Leave it empty (no README, no .gitignore)
+
+Create it
+
+This gives you the remote URL you’ll push to.
+
+2. Create a Personal Access Token (PAT) with the correct permissions
+This was the other critical insight.
+
+You created a fine‑grained PAT with:
+
+Repository access → your specific repo
+
+Permissions:
+
+Contents: Read and Write
+
+(Optional) Metadata: Read
+
+This is the minimum needed for pushing code.
+
+You also learned that:
+
+PATs authenticate over HTTPS, not SSH
+
+Government networks block SSH but allow HTTPS
+
+So PATs work even when SSH is blocked
+
+This is why your final setup succeeded.
+
+3. Store the PAT in your Git credentials file
+You placed your PAT into:
+```bash
+~/.git-credentials
+```
+Using the correct format:
+
+https://USERNAME:PAT@github.com/USERNAME/REPO.git
+
+This was essential because Git matches credentials by URL, and including the full repo path ensured Git used the correct token.
+
+4. Set Git to use the credential helper
+
+```bash
+git config --global credential.helper store
+```
+This tells Git to read from `~/.git-credentials` automatically.
+
+5. Add, commit, and push
+Once the PAT was stored correctly and the repo existed, everything worked:
+```bash
+git add .
+git commit -m "Initial commit"
+git push
+```
+And GitHub accepted the PAT over HTTPS.
+
